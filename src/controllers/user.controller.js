@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
-import { uploadOnCloudinary } from "../config/cloudinary.js";
-import { User } from "../models/user.model.js";
-import { ApiError } from "../utils/ApiError.js";
-import { ApiResponse } from "../utils/ApiResponse.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
+import { uploadOnCloudinary } from "#config/cloudinary";
+import { User } from "#models/user.model";
+import { ApiError } from "#utils/ApiError";
+import { ApiResponse } from "#utils/ApiResponse";
+import { asyncHandler } from "#utils/asyncHandler";
 import nodemailer from "nodemailer";
 
 const generateAccessTokens = async (userId) => {
