@@ -2,38 +2,29 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
+import userRouter from "./routes/user.route.js";
+
 dotenv.config();
 
 const app = express();
 
-// const allowedOrigins = ["http://localhost:8080"];
-
-// app.use(
-//   cors({
-//     origin: allowedOrigins,
-//     credentials: true,
-//     // allowedHeaders: ["Content-Type", "Authorization"],
-//     // methods: ["GET", "POST", "PATCH", "DELETE"],
-//   })
-// );
-
 const allowedOrigins = [
-  "http://localhost:8080",
-  "https://your-frontend-domain.com",
+  "https://beautiful-dasik-ad7383.netlify.app",
+  "http://localhost:5176",
 ];
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-        callback(null, true);
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true); // Allow request
       } else {
-        callback(new Error("Not allowed by CORS"));
+        callback(new Error("Not allowed by CORS")); // Block request
       }
     },
     credentials: true,
-    methods: ["GET", "POST", "Patch", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    methods: ["GET", "POST", "PATCH", "DELETE"],
   })
 );
 
@@ -42,15 +33,11 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("Public"));
 app.use(cookieParser());
 
-// Routers
-import userRouter from "./routes/user.route.js";
-// import personnelRouter from "./routes/personnel.route.js";
-app.use("/api/v1/users", userRouter);
-// app.use("/api/v1/personnel", personnelRouter);
-
 app.get("/", (req, res) => {
   res.send("Server started via GET request");
 });
+
+app.use("/api/v1/users", userRouter);
 
 app.use((req, res) => {
   res.status(404).json({ success: false, message: "Route not found" });
@@ -59,5 +46,4 @@ app.use((req, res) => {
 app.use((err, req, res, next) => {
   res.status(err.status || 500).json({ success: false, message: err.message });
 });
-
 export default app;
