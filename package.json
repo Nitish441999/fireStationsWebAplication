@@ -1,24 +1,23 @@
 {
   "name": "backendfirestations",
   "version": "1.0.0",
-  "description": "fire staions web alication",
+  "description": "fire stations web application",
   "main": "index.js",
   "type": "module",
   "imports": {
-  "#middleware/*": "./src/middleware/*.js",
-  "#controllers/*": "./src/controllers/*.js",
-  "#models/*": "./src/models/*.js",
-  "#config/*": "./src/config/*.js",
-  "#utils/*": "./src/utils/*.js",
-  "#routes/*": "./src/routes/*.js"
- 
-},
-
+  "#routes/*": "./src/routes/*",
+  "#middleware/*": "./src/middleware/*",
+  "#controllers/*": "./src/controllers/*",
+  "#models/*": "./src/models/*",
+  "#config/*": "./src/config/*",
+  "#utils/*": "./src/utils/*"
+}
+,
   "scripts": {
-    "start": "nodemon -r dotenv/config --experimental-json-modules src/index.js"
+    "start": "nodemon -r dotenv/config -r module-alias/register src/index.js"
   },
   "keywords": [
-    "javascrept",
+    "javascript",
     "mongodb",
     "nodejs"
   ],
