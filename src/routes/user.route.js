@@ -8,7 +8,7 @@ import {
   verifyOTP,
 } from "#controllers/user.controller.js";
 import { upload } from "#middleware/multer.middlewares.js";
-import verifyJWT from "../middleware/auth.Middleware.js";
+import verifyJWT from "#middleware/user.middleware.js";
 
 const router = Router();
 
