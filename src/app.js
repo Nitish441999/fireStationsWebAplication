@@ -10,7 +10,7 @@ const app = express();
 
 const allowedOrigins = [
   "https://beautiful-dasik-ad7383.netlify.app",
-  "http://localhost:5176",
+  "http://localhost:8080",
 ];
 
 app.use(
