@@ -3,10 +3,9 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 
-
-
 import userRouter from "#routes/user.route.js";
 import personnelRouter from "#routes/personnel.route.js";
+import vehicleRouter from "#routes/vehicle.route.js";
 
 dotenv.config();
 
@@ -43,6 +42,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/personnel", personnelRouter);
+app.use("/api/v1/vehicles", vehicleRouter);
 
 app.use((req, res) => {
   res.status(404).json({ success: false, message: "Route not found" });

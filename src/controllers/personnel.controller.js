@@ -29,9 +29,40 @@ const createPersonnel = asyncHandler(async (req, res) => {
 });
 
 const getAllPersonnel = asyncHandler(async (req, res) => {
-  const personnel = await Personnel.find({});
-  res.status(200).json(new ApiResponse(200, personnel, "All Personnel"));
+  let { page = 1, limit = 10 } = req.query;
+  page = parseInt(page);
+  limit = parseInt(limit);
+
+  const skip = (page - 1) * limit;
+
+  const personnelCount = await Personnel.countDocuments();
+  const totalPages = Math.ceil(personnelCount / limit);
+
+  const personnel = await Personnel.find().skip(skip).limit(limit);
+
+  if (personnel.length === 0) {
+    return res
+      .status(200)
+      .json(new ApiResponse(200, [], "No Personnel found"));
+  }
+
+  const response = {
+    personnel,
+    totalPages,
+    currentPage: page,
+    totalPersonnel: personnelCount,
+    hasNextPage: page < totalPages,
+    hasPreviousPage: page > 1,
+    nextPage: page < totalPages ? page + 1 : null,
+    previousPage: page > 1 ? page - 1 : null,
+  };
+
+  res.status(200).json(new ApiResponse(200, response, "All Personnel"));
 });
+
+  
+
+ 
 
 const getPersonnelById = asyncHandler(async (req, res) => {
   const { id } = req.params;
