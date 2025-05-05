@@ -6,11 +6,13 @@ import mongoose from "mongoose";
 
 const createPersonnel = asyncHandler(async (req, res) => {
   const { name, position, badge, status, team, email, Phone } = req.body;
+  console.log(req.body);
+
   if (!name || !position || !badge || !status || !team || !email || !Phone) {
     throw new ApiError(400, "All fields are required");
   }
   const existsingPersonnel = await Personnel.find({ email });
-  if (existsingPersonnel) {
+  if (!existsingPersonnel) {
     throw new ApiError(400, "Personnel already exists");
   }
   const newPersonnel = await Personnel.create({
@@ -41,9 +43,7 @@ const getAllPersonnel = asyncHandler(async (req, res) => {
   const personnel = await Personnel.find().skip(skip).limit(limit);
 
   if (personnel.length === 0) {
-    return res
-      .status(200)
-      .json(new ApiResponse(200, [], "No Personnel found"));
+    return res.status(200).json(new ApiResponse(200, [], "No Personnel found"));
   }
 
   const response = {
@@ -59,10 +59,6 @@ const getAllPersonnel = asyncHandler(async (req, res) => {
 
   res.status(200).json(new ApiResponse(200, response, "All Personnel"));
 });
-
-  
-
- 
 
 const getPersonnelById = asyncHandler(async (req, res) => {
   const { id } = req.params;
